@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Person page</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<form action="#" th:action="@{/hello}" th:object="${person}" method="post">
+    <table>
+
+        <tr>
+            <td>Nickname:</td>
+            <td><input type="text" th:field="*{nickname}"/></td>
+            <td th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">must not be empty.</td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" value="Submit"/></td>
+        </tr>
+    </table>
+
+</form>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
