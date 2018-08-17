@@ -27,7 +27,7 @@ public class RegistrationController {
     @Autowired
     private PersonRepository repository;
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
     @GetMapping("/registration")
     public String registrationForm(Model model) {

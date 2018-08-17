@@ -27,7 +27,7 @@ public class PersonEditController {
     @Autowired
     private PersonRepository repository;
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(PersonEditController.class);
 
     @GetMapping("/hello")
     public String helloForm(final HttpServletRequest request, final Model model) {
