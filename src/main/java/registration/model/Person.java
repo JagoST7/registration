@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by estarcev on 17.08.2018.
@@ -28,7 +29,10 @@ public class Person {
 
     private String confPass;
 
+    @Size(min=2, max=20)
     private String nickname;
+
+    private String avatarHref = "/images/avatar.png";
 
     public Person() {
     }
@@ -78,5 +82,13 @@ public class Person {
 
     public boolean isPassMismatch(){
         return password != null && password.equals(confPass);
+    }
+
+    public String getAvatarHref() {
+        return avatarHref;
+    }
+
+    public void setAvatarHref(String avatarHref) {
+        this.avatarHref = avatarHref;
     }
 }

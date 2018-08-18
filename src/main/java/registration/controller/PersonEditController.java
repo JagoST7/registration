@@ -3,17 +3,13 @@ package registration.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import registration.Application;
-import registration.dao.PersonRepository;
 import registration.model.Person;
+import registration.service.DAOServiceInt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,7 +21,7 @@ import javax.validation.Valid;
 public class PersonEditController {
 
     @Autowired
-    private PersonRepository repository;
+    private DAOServiceInt repository;
 
     private static final Logger log = LoggerFactory.getLogger(PersonEditController.class);
 
@@ -46,10 +42,16 @@ public class PersonEditController {
     @PostMapping("/hello")
     public String registrationSubmit(final HttpServletRequest request, @Valid Person person, BindingResult bindingResult, Model model) {
 
+        if (bindingResult.getFieldError("nickname") != null ||
+                bindingResult.getFieldError("avatarHref") != null) {
+            return "hello";
+        }
+
         try {
             Person experson = repository.findByEmail(request.getRemoteUser());
             experson.setNickname(person.getNickname());
-            repository.save(experson);
+            experson.setAvatarHref(person.getAvatarHref());
+            experson = repository.save(experson);
 
             model.addAttribute("person", experson);
             log.info("update user "+experson.getEmail());
@@ -58,6 +60,6 @@ public class PersonEditController {
             return "login";
         }
 
-        return "/hello";
+        return "hello";
     }
 }

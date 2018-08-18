@@ -9,9 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import registration.Application;
-import registration.dao.PersonRepository;
 import registration.model.Person;
+import registration.service.DAOServiceInt;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,14 +24,14 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     @Autowired
-    private PersonRepository repository;
+    private DAOServiceInt repository;
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
     @GetMapping("/registration")
     public String registrationForm(Model model) {
         log.info("open registration form");
-        model.addAttribute("person", new Person("test", ""));
+        model.addAttribute("person", new Person());
         return "registration";
     }
 
@@ -53,7 +52,7 @@ public class RegistrationController {
 
         log.info("New person created: "+person.getEmail());
 
-        repository.save(person);
+        person = repository.save(person);
         try {
             request.login(person.getEmail(), person.getPassword());
         } catch (ServletException e) {

@@ -2,17 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
     <title>Registration</title>
 </head>
 <body>
 
-<form action="#" th:action="@{/registration}" th:object="${person}" method="post">
+<form class="regForm" action="#" th:action="@{/registration}" th:object="${person}" method="post">
 
     <table>
         <tr>
             <td>EMail :</td>
             <td><input type="text" th:field="*{email}"/></td>
-            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+        </tr>
+        <tr>
+            <td></td>
+            <td class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                 This EMail is already registered.
             </td>
         </tr>
@@ -20,18 +24,29 @@
         <tr>
             <td>Password:</td>
             <td><input type="password" name="password" th:field="*{password}"/></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">must not be empty.</td>
         </tr>
 
-
         <tr>
-            <td>Confirm Password:</td>
-            <td><input type="password" name="confirm_password" th:field="*{confPass}"/></td>
-            <td th:if="${#fields.hasErrors('confPass')}" th:errors="*{confPass}">password and confirmation mismatch
+            <td></td>
+            <td class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                must not be empty.
             </td>
         </tr>
 
         <tr>
+            <td>Confirm Password:</td>
+            <td><input type="password" name="confirm_password" th:field="*{confPass}"/></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td class="error" th:if="${#fields.hasErrors('confPass')}" th:errors="*{confPass}">
+                password and confirmation mismatch
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
             <td><input type="submit" value="Submit"/></td>
         </tr>
     </table>

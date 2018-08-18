@@ -2,29 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
     <title>Person page</title>
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 
-<form action="#" th:action="@{/hello}" th:object="${person}" method="post">
+<form class="logoutForm" th:action="@{/logout}" method="post">
+    <button class="logoutButton" type="submit" value="Sign Out">Sign Out</button>
+</form>
+
+<form class="editForm" action="#" th:action="@{/hello}" th:object="${person}" method="post">
+    <img class="avatar" th:src="*{avatarHref}">
     <table>
+        <tr>
+            <td>EMail</td>
+            <td style="padding: 9px">[[${#httpServletRequest.remoteUser}]]</td>
+        </tr>
 
         <tr>
             <td>Nickname:</td>
             <td><input type="text" th:field="*{nickname}"/></td>
-            <td th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">must not be empty.</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="error" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">must not be empty.</td>
         </tr>
 
         <tr>
+            <td>Avatar url:</td>
+            <td><input type="text" th:field="*{avatarHref}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="error" th:if="${#fields.hasErrors('avatarHref')}" th:errors="*{avatarHref}"></td>
+        </tr>
+
+        <tr><td><br/></td></tr>
+
+        <tr>
+            <td></td>
             <td><input type="submit" value="Submit"/></td>
         </tr>
     </table>
-
 </form>
 
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
 </body>
 </html>

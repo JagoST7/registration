@@ -10,20 +10,20 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import registration.dao.PersonRepository;
 import registration.model.Person;
+import registration.service.DAOServiceInt;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    PersonRepository repository;
+    DAOServiceInt repository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/home", "/registration", "/resources/**").permitAll().anyRequest().authenticated()
+                .antMatchers("/", "/registration", "/resources/**","/css/**","/images/**").permitAll().anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/hello").permitAll()
                 .and().logout().permitAll();
     }
